@@ -1,30 +1,32 @@
+from typing import List
+
 class Solution:
     def closestPrimes(self, left: int, right: int) -> List[int]:
-        is_prime = bytearray(b'\x01') * (right + 1)
-        is_prime[0] = is_prime[1] = 0
+        sieve = [True] * (right + 1)
+        sieve[0] = sieve[1] = False
 
         for i in range(2, int(right ** 0.5) + 1):
-            if is_prime[i]:
-                for m in range(i * i, right + 1, i):
-                    is_prime[m] = 0
-        
-        res = [-1, -1]
-        prime = -1
-        min_diff = right - left + 1
+            if sieve[i]:
+                for j in range(i * i, right + 1, i):
+                    sieve[j] = False
 
-        for n in range(left, right + 1):
-            if not is_prime[n]:
-                continue
-            
-            if prime != -1:
-                diff = n - prime
+        prev = -1
+        ans = [-1, -1]
+        min_gap = float('inf')
 
-                if diff < min_diff:
-                    res = [prime, n]
-                
-                if diff <= 2:
-                    return res
-            
-            prime = n
-        
-        return res
+        for num in range(left, right + 1):
+            if sieve[num]:
+                if prev != -1:
+                    gap = num - prev
+
+                    if gap < min_gap:
+                        min_gap = gap
+                        ans = [prev, num]
+
+                    # Smallest possible gap between primes
+                    if gap == 2:
+                        return ans
+
+                prev = num
+
+        return ans
