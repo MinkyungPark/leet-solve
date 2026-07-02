@@ -17,5 +17,3 @@ class Solution:
                     is_prime[multiple] = 0
 
         return sum(is_prime)
-        
-        return sum(is_prime)
