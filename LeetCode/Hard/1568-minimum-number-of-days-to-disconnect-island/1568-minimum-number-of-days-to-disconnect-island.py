@@ -1,7 +1,7 @@
 """
-0 : no land
-1 : one island
-2 : already seperated
+0: already disconnected
+1: disconnected after removing one land cell
+2: requires removing two land cells
 """
 
 class Solution:
@@ -40,8 +40,10 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1:
+                    # Still one island after removing one land cell
                     grid[i][j] = 0
-                    if count_islands() != 1: # Still one island after removing one land cell
+                    if count_islands() != 1:
+                        # Disconnected after removing one land cell
                         return 1
                     grid[i][j] = 1
         
